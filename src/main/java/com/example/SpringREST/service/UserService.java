@@ -5,10 +5,12 @@ import com.example.SpringREST.repository.UserRepository;
 import com.example.SpringREST.util.UserNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class UserService {
 
     private final UserRepository userRepository;
@@ -24,5 +26,10 @@ public class UserService {
     public User findOne(int id){
         Optional<User> user = userRepository.findById(id);
         return user.orElseThrow(UserNotFoundException::new);
+    }
+
+    @Transactional
+    public void save  (User user){
+        userRepository.save(user);
     }
 }
